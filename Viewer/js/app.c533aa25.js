@@ -1,4 +1,9 @@
-(function(t) {
+var currentAudio = null;                                 /* for audio fuction. DragonsWhore */
+
+
+
+
+(function (t) {
     function e(e) {
         for (var s, a, n = e[0], p = e[1], l = e[2], h = 0, d = []; h < n.length; h++) a = n[h], Object.prototype.hasOwnProperty.call(o, a) && o[a] && d.push(o[a][0]), o[a] = 0;
         for (s in p) Object.prototype.hasOwnProperty.call(p, s) && (t[s] = p[s]);
@@ -1130,7 +1135,7 @@
                     i = t._self._c || e;
                 return i("v-col", {
                     staticClass: "pa-0"
-                }, [t.pointType.iconIsOn && !t.pointType.imageSidePlacement && t.score.showScore && t.isPointtypeActivated && !t.pointType.isNotShownObjects ? i("v-row", [i("v-col", {
+                }, [t.pointType.iconIsOn && !t.pointType.imageSidePlacement && t.score.showScore && !t.pointType.isNotShownObjects ? i("v-row", [i("v-col", {   /* Deleted wrong t.isPointtypeActivated check DragonsWhore*/
                     staticClass: "pa-0 ma-0",
                     style: t.scoreText
                 }, [i("div", {
@@ -1157,7 +1162,7 @@
                     domProps: {
                         innerHTML: t._s(t.$sanitize((t.score.isRandom && !t.score.setValue ? (t.score.maxValue < 0 ? (t.scoreMaxValue + " ~ " + t.scoreMinValue) : (t.scoreMinValue + " ~ " + t.scoreMaxValue)) : t.scoreValue) + " " + t.score.afterText, t.sanitizeArg))
                     }
-                })])])], 1) : t.pointType.iconIsOn && t.pointType.imageSidePlacement && t.score.showScore && t.isPointtypeActivated && !t.pointType.isNotShownObjects ? i("v-row", [i("v-col", {
+				})])])], 1) : t.pointType.iconIsOn && t.pointType.imageSidePlacement && t.score.showScore && !t.pointType.isNotShownObjects ? i("v-row", [i("v-col", {  /* Deleted wrong t.isPointtypeActivated check DragonsWhore*/
                     staticClass: "pa-0 ma-0",
                     style: t.scoreText
                 }, [i("div", [i("p", {
@@ -1184,7 +1189,7 @@
                     attrs: {
                         src: t.pointType.image
                     }
-                }) : t._e()])])], 1) : t.score.showScore && !t.pointType.iconIsOn && t.isPointtypeActivated && !t.pointType.isNotShownObjects ? i("v-row", [i("v-col", {
+				}) : t._e()])])], 1) : t.score.showScore && !t.pointType.iconIsOn  && !t.pointType.isNotShownObjects ? i("v-row", [i("v-col", {   /* Deleted wrong t.isPointtypeActivated check DragonsWhore*/
                     staticClass: "pa-0 ma-0",
                     style: t.scoreText
                 }, [i("div", [i("p", {
@@ -2048,6 +2053,29 @@
 							var eid = e.isMultipleUseVariable ? e.id + "/ON#" + e.multipleUseVariable : e.id
 							if (t.currentChoices + 1 > t.allowedChoices && !e.isActive && 0 != t.allowedChoices)
 								for (var r = 0; r < t.objects.length; r++) t.objects[r].isActive && t.currentChoices + 1 > t.allowedChoices && this.activateObject(t.objects[r], t);
+
+
+
+
+
+
+							if (e.backgroundImage) {
+								this.changeBackgroundImage(e.backgroundImage);     /*added a check if the element has a backgroundImage property. DragonsWhore*/
+							}
+							if (e.scrollToTop) {
+								this.scrollToTop();   /*added a check if the element has a backgroundImage property. DragonsWhore*/
+							}
+							if (e.backgroundMusic) {
+								this.playBackgroundMusic(e.backgroundMusic);
+							}
+
+
+
+
+
+
+
+
 							if (s && o && (t.currentChoices < t.allowedChoices || 0 == t.allowedChoices)) {
 								if (this.activated.includes(eid)) {
 									for (var a = 0; a < e.scores.length; a++)
@@ -2904,7 +2932,51 @@
 							}
 						}
                     },
-                    updateObject: function() {
+
+					changeBackgroundImage: function (imageUrl) {
+						var backgroundDiv = document.querySelector('.pb-12');
+						if (backgroundDiv) {
+							backgroundDiv.style.backgroundImage = "url('" + imageUrl + "')";/* added changing the background image after checking if the element has the backgroundImage property. DragonsWhore*/
+						    backgroundDiv.style.backgroundRepeat = "repeat"; 
+							backgroundDiv.style.backgroundSize = "auto";      
+						}
+					},
+
+					scrollToTop: function() {
+						window.scrollTo({
+							 top: 0,
+							 behavior: 'smooth'
+						 });
+					},
+
+					playBackgroundMusic: function (musicUrl) {
+						// Если уже есть проигрываемая музыка, останавливаем её
+						if (currentAudio) {
+							currentAudio.pause();
+							currentAudio = null;
+						}
+
+						// Создаем новый аудио элемент
+						currentAudio = new Audio('audio/' + musicUrl);
+
+						// Устанавливаем музыку на повтор
+						currentAudio.loop = true;
+
+						// Начинаем проигрывание
+						currentAudio.play().catch(function (error) {
+							console.log("Автоматическое проигрывание не удалось:", error);
+							// Здесь можно добавить код для отображения кнопки воспроизведения
+						});
+					},
+
+
+
+
+
+
+
+
+					updateObject: function () {
                         this.$emit("objectWasChanged", this.object)
                     },
                     selectedOneMore: function(e, t) {

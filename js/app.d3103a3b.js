@@ -11096,6 +11096,12 @@
 							var eid = e.isMultipleUseVariable ? e.id + "/ON#" + e.multipleUseVariable : e.id
 							if (t.currentChoices + 1 > t.allowedChoices && !e.isActive && 0 != t.allowedChoices)
 								for (var r = 0; r < t.objects.length; r++) t.objects[r].isActive && t.currentChoices + 1 > t.allowedChoices && this.activateObject(t.objects[r], t);
+
+
+                            if (e.backgroundImage) {
+                                document.body.style.backgroundImage = "url('" + e.backgroundImage + "')";      /*added a check if the element has a backgroundImage property. DragonsWhore */
+                            }
+
 							if (s && o && (t.currentChoices < t.allowedChoices || 0 == t.allowedChoices)) {
 								if (this.activated.includes(eid)) {
 									for (var a = 0; a < e.scores.length; a++)
@@ -11960,6 +11966,14 @@
 							}
 						}
                     },
+
+
+                    changeBackgroundImage: function (imageUrl) {
+                        document.body.style.backgroundImage = "url('" + imageUrl + "')";      /*added changing the background image after checking if the element has the backgroundImage property. DragonsWhore */
+                    },
+
+
+
                     updateObject: function() {
                         this.$emit("objectWasChanged", this.object)
                     },
